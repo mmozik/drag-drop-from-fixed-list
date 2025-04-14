@@ -1,0 +1,40 @@
+{
+  "name": "drag-drop-from-fixed-list",
+  "version": "0.0.1",
+  "description": "react-dnd drag & drop from fixed list",
+  "main": "index.js",
+  "scripts": {
+    "test": "craco test",
+    "start": "craco start",
+    "build": "craco build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "mmozik/drag-drop-from-fixed-list"
+  },
+  "author": "Predrag M.",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^19.1.0",
+    "react-scripts": "^5.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.1.0"
+  }
+}
+
