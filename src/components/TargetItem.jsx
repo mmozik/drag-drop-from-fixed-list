@@ -10,45 +10,45 @@ const TargetItem = ({
   removeItem,
 }) => {
   const ref = useRef(null);
-  const [, drop] = useDrop({
+  const [{ over }, drop] = useDrop({
     accept: "ITEM",
-    hover(item, monitor) {
-      if (!text || !monitor.isOver({ shallow: true })) return;
-      if (item.internal && item.index !== index) {
-        moveItem(item.index, index);
-        item.index = index;
-      }
-    },
+    // hover(item, monitor) {
+    //   if (!text || !monitor.isOver({ shallow: true })) return;
+    //   if (item.internal && item.index !== index) {
+    //     moveItem(item.index, index);
+    //     item.index = index;
+    //   }
+    // },
     drop(item, monitor) {
       if (!item.internal) {
-        onDropAt(item.text, index); // spolja ubačen
-      }
+        onDropAt(item, index); // spolja ubačen
+      } else moveItem(item.index, index);
     },
-  });
-
-  const [{ isDragging }, drag] = useDrag({
-    type: "ITEM",
-    item: { text, index, internal: true },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
+    collect: (monitor, props) => ({
+      over: monitor.isOver(),
     }),
   });
 
+  const [, drag] = useDrag({
+    type: "ITEM",
+    item: { text, index, internal: true },
+  });
+
   // Ako je placeholder (na kraju liste), nema drag
-  if (isPlaceholder) {
-    return (
-      <div
-        ref={drop}
-        style={{
-          border: "1px dashed gray",
-          margin: "3px",
-          padding: "9px",
-        }}
-      >
-        <i>Drop zona</i>
-      </div>
-    );
-  }
+  // if (isPlaceholder) {
+  //   return (
+  //     <div
+  //       ref={drop}
+  //       style={{
+  //         border: "1px dashed gray",
+  //         margin: "3px",
+  //         padding: "9px",
+  //       }}
+  //     >
+  //       <i>Drop zona</i>
+  //     </div>
+  //   );
+  // }
 
   drag(drop(ref));
 
@@ -58,7 +58,7 @@ const TargetItem = ({
       style={{
         padding: "9px",
         margin: "3px",
-        backgroundColor: isDragging ? "#ccc" : "#f0f0f0",
+        backgroundColor: over ? "#ccc" : "#f0f0f0",
         border: "1px solid #bbb",
         cursor: "move",
         display: "flex",
@@ -66,8 +66,12 @@ const TargetItem = ({
         alignItems: "center",
       }}
     >
-      <span>{text}</span>
-      <button onClick={() => removeItem(index)} style={{ marginLeft: 10 }}>
+      <span>{text.display}</span>
+      <button
+        onClick={() => removeItem(index)}
+        style={{ marginLeft: 10 }}
+        title={`izbriši ${text.display}`}
+      >
         ❌
       </button>
     </div>

@@ -1,9 +1,18 @@
+import { useState } from "react";
 import TargetItem from "./TargetItem";
+import DropZone from "./DropZone";
 
 const TargetList = ({ items, setItems }) => {
-  const handleDropAt = (text, index) => {
+  const handleDropAt = (nItem, index) => {
     const updated = [...items];
-    updated.splice(index, 0, text);
+    let { count, display, type } = nItem;
+    const allTypes = updated.filter((i) => i.type == type);
+    if (allTypes.length > 0) {
+      count = Math.max(...allTypes.map((i) => i.count)); //daj max count u nizu
+      count++;
+      display = `${type} (${count})`;
+    }
+    updated.splice(index, 0, { type, count, display });
     setItems(updated);
   };
 
@@ -15,11 +24,17 @@ const TargetList = ({ items, setItems }) => {
     <div
       style={{ minHeight: "102px", border: "1px solid gray", padding: "3px" }}
     >
-      {items.map((text, index) => (
+      <div style={{ textAlign: "right", padding: "3px" }}>
+        <button onClick={() => setItems([])} title="izbrši sve">
+          ❌
+        </button>
+      </div>
+      <DropZone onDropAt={handleDropAt} />
+      {items.map((item, index) => (
         <TargetItem
           key={index}
           index={index}
-          text={text}
+          text={item}
           moveItem={(from, to) => {
             const updated = [...items];
             const [removed] = updated.splice(from, 1);
@@ -30,7 +45,6 @@ const TargetList = ({ items, setItems }) => {
           removeItem={removeItem}
         />
       ))}
-      <TargetItem isPlaceholder index={items.length} onDropAt={handleDropAt} />
     </div>
   );
 };

@@ -1,9 +1,12 @@
 import { useDrag } from "react-dnd";
 
-const SourceItem = ({ text }) => {
-  const [, drag] = useDrag({
+const SourceItem = ({ type }) => {
+  const [{ dragged }, drag] = useDrag({
     type: "ITEM",
-    item: { text }, // šta šalješ kada je prevučeno
+    item: { display: type, type, count: 0 }, // šta šalješ kada je prevučeno
+    collect: (monitor) => ({
+      dragged: monitor.isDragging(),
+    }),
   });
 
   return (
@@ -11,12 +14,12 @@ const SourceItem = ({ text }) => {
       ref={drag}
       style={{
         padding: "8px",
-        backgroundColor: "#d0e0ff",
+        backgroundColor: dragged ? "#f00" : "#d0e0ff",
         border: "1px solid #aaa",
         cursor: "grab",
       }}
     >
-      {text}
+      {type}
     </div>
   );
 };
