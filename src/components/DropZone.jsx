@@ -1,10 +1,10 @@
 import { useDrop } from "react-dnd";
 
-const DropZone = ({ onDropAt }) => {
+const DropZone = ({ onDropAt, itemsCount = 0 }) => {
   const [, drop] = useDrop({
     accept: "ITEM",
     drop: (item) => {
-      onDropAt(item, 0);
+      onDropAt(item, itemsCount);
     },
     canDrop: (item) => !item.internal,
   });
@@ -18,7 +18,7 @@ const DropZone = ({ onDropAt }) => {
         padding: "9px",
       }}
     >
-      <i>Prebaci ovde da dodas na vrh</i>
+      <i>Prevuci i pusti ovde da dodas na dno</i>
     </div>
   );
 };

@@ -29,7 +29,6 @@ const TargetList = ({ items, setItems }) => {
           ❌
         </button>
       </div>
-      <DropZone onDropAt={handleDropAt} />
       {items.map((item, index) => (
         <TargetItem
           key={index}
@@ -45,6 +44,7 @@ const TargetList = ({ items, setItems }) => {
           removeItem={removeItem}
         />
       ))}
+      <DropZone onDropAt={handleDropAt} itemsCount={items.length} />
     </div>
   );
 };
